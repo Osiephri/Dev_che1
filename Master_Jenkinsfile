@@ -7,11 +7,11 @@ pipeline{
         DOCKER_HUB=credentials('dockerhub')
     }
 
-    parameterS{
-        choices(choices:['dev','prod','uat'],name:"Environment")
+    parameters{
+        choice(choices:['dev','prod','uat'],name:"Environment")
         password(name:'Admin_password')
-        choices(choices:['infrastructure','CI','CD_Job','Test'],name:'Pipelines')
-        choices(choices: ['dev-cluster','stage-cluster','live-cluster'],name: 'CLUSTER_ENV')
+        choice(choices:['infrastructure','CI','CD_Job','Test'],name:'Pipelines')
+        choice(choices: ['dev-cluster','stage-cluster','live-cluster'],name: 'CLUSTER_ENV')
     }
 //checkoutcode
     stages{
