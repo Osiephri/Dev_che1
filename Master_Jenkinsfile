@@ -19,7 +19,7 @@ pipeline{
             steps{
                 script{
                     if ( "${params.Environment}" == 'dev'){
-                        sh "checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/Osiephri/Production_level_pipeline']]])"
+                        sh "checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/Osiephri/Dev_che1']]])"
                     }
                 }
             }
@@ -28,12 +28,12 @@ pipeline{
                 steps{
                     script{
                     if ( "${params.Environment}" == 'dev' || env.BRANCH_NAME == 'main' || ${params.Admin_Password} == ADMIN_PASSWORD){
-                        dir('../validator-frontend/') {
+                        dir('./validator-frontend/') {
                             sh 
                             ''' 
                                docker version
                                docker images
-                               docker build -t company_site:"${env.BUILD_ID}" .
+                               docker build -t dev-che:"${env.BUILD_ID}" .
                             
                             '''
                             }
