@@ -35,8 +35,7 @@ pipeline{
                         dir('./validator-frontend/') { 
                                sh 'docker version'
                                sh 'docker images'
-                               sh 'docker build -t dev-che .'
-                            
+                               sh 'docker build -t dev-che -f ./validator-frontend/Dockerfile' .                            
                             }
                     }
                 }
