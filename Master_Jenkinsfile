@@ -31,7 +31,7 @@ pipeline{
             stage('Build image'){
                 steps{
                     script{
-                    if ( "${params.Environment}" == 'dev' || env.BRANCH_NAME == 'main' || ${params.Admin_Password} == ADMIN_PASSWORD){
+                    if ( "${params.Environment}" == 'dev' ||  env.BRANCH_NAME == 'master' && ${params.Admin_Password} == ADMIN_PASSWORD){
                         dir('./validator-frontend/') {
                             sh 
                             ''' 
