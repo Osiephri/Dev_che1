@@ -35,7 +35,7 @@ pipeline{
                         dir('./validator-frontend/') { 
                                sh 'docker version'
                                sh 'docker images'
-                               sh 'docker build -t dev-che:"${env.BUILD_ID}" .'
+                               sh 'docker build -t dev-che .'
                             
                             }
                     }
