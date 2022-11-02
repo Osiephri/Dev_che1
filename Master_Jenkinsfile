@@ -19,7 +19,7 @@ pipeline{
             steps{
                 script{
                     if ( "${params.Environment}" == 'dev'){
-                        sh "checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/Osiephri/Dev_che1']]])"
+                        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/Osiephri/Dev_che1']]])
                     }
                 }
             }
