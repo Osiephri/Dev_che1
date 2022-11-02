@@ -32,10 +32,10 @@ pipeline{
                 steps{
                     script{
                     if ( "${params.Environment}" == 'dev' ||  env.BRANCH_NAME == 'master' && ${params.Admin_Password} == ADMIN_PASSWORD){
-                        dir('./validator-frontend/') { 
+                        dir('./validator-frontend/'){ 
                                sh 'docker version'
                                sh 'docker images'
-                               sh 'docker build -t dev-che -f ./validator-frontend/Dockerfile' .                            
+                               sh 'docker build -t dev-che -f ./validator-frontend/' .                            
                             }
                     }
                 }
