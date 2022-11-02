@@ -1,0 +1,112 @@
+pipeline{
+    agent any
+    environment{
+        ADMIN_PASSWORD = credentials('admin_password') 
+        BRANCH_NAME="main"
+        DEPLOY_TO="production"
+        DOCKER_HUB=credentials('dockerhub')
+    }
+
+    parameter{
+        choices(choices:['dev','prod','uat'],name:"Environment")
+        password(name:'Admin_password')
+        choices(choices:['infrastructure','CI','CD_Job','Test'],name:'Pipelines')
+        choices(choices: ['dev-cluster','stage-cluster','live-cluster'],name: 'CLUSTER_ENV')
+    }
+//checkoutcode
+    stages{
+        stage('CheckOutCode'){
+            steps{
+                script{
+                    if ( "${params.Environment}" == 'dev'){
+                        sh "checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/Osiephri/Production_level_pipeline']]])"
+                    }
+                }
+            }
+//Build Docker images
+            stage('Build image'){
+                steps{
+                    script{
+                    if ( "${params.Environment}" == 'dev' || env.BRANCH_NAME == 'main' || ${params.Admin_Password} == ADMIN_PASSWORD){
+                        dir('../validator-frontend/') {
+                            sh 
+                            ''' 
+                               docker version
+                               docker images
+                               docker build -t company_site:"${env.BUILD_ID}" .
+                            
+                            '''
+                            }
+                    }
+                }
+            }
+        }
+//Login and push built image to hub
+            stage('Push Image to hub'){
+                steps{
+                    script{
+                        if ( "${params.Environment}" == 'dev' || env.BRANCH_NAME == 'main'){
+                            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                                sh 
+                                ''' 
+                                  
+                                  docker login -u $USER -p $PASS
+                                  docker tag company_site:"${env.BUILD_ID} scinet0786/production_pipeline:"${env.BUILD_ID}"
+                                  docker push scinet0786/production_pipeline:"${env.BUILD_ID}"
+
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+//--------------------------------------------------------------------------//
+//                                                                          //
+//         P.A.R.A.M.E.T.E.R.I.Z.E.D   B.U.I.L.D.S   S.E.C.T.I.O.N          //
+//                                                                          //
+//--------------------------------------------------------------------------//
+            stage('BUILD_CD_JOB[INFRASTRUCTURE]'){
+                steps{
+                    script{
+                        def image = input(name:'CD_build',Message:'Build the image and deploy it in a kubernetes cluster')
+                        def image_version;
+                        if (${params.Pipelines == 'infrastructure'}){
+                            build job: "infrastructure" , parameter[string(name: 'infrastructure' , value: 'infrastructure')]
+                        }
+
+                    }
+                }
+            }
+
+            stage('BUILD_CD_JOB[DEPLOY TO SEVERAL CLUSTER ENVIRONMENTS]'){
+                steps{
+                    script{
+                        if ($params.Pipelines == 'CD_Job'){
+                            if (CLUSTER_ENV == 'dev-cluster'){
+                            //add the withKubeconfig pipeline syntax
+                            }
+                            else if (CLUSTER_ENV == 'stage-cluster'){
+                            //add the with kubeconfig and kubectl command
+                            }
+                            else{
+                            //add the kubeconfig for the live environments
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+//-------------------------------------------------------------------------------------------//
+//                                                                                           //
+//                        P.O.S.T   B.U.I.L.D   J.O.B.S                                      //
+//                                                                                           //
+//-------------------------------------------------------------------------------------------//
+    post{
+        failure{
+            mail to: "osiephriobukohwo@gmail.com"
+            subject: "FAILED BUILD"
+            body: "At a certain stage in the build there was a failure lease check to ensure everything works fine"
+        }
+    }
+}
