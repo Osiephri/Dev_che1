@@ -21,6 +21,9 @@ pipeline{
                     if ( "${params.Environment}" == 'dev'){
                         checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/Osiephri/Dev_che1']]])
                     }
+                    else{
+                        echo "This wont last"
+                    }
                 }
             }
         }
