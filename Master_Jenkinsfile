@@ -103,11 +103,11 @@ pipeline{
 //                        P.O.S.T   B.U.I.L.D   J.O.B.S                                      //
 //                                                                                           //
 //-------------------------------------------------------------------------------------------//
-    post{
-        failure{
-            mail to: "osiephriobukohwo@gmail.com"
-            subject: "FAILED BUILD"
-            body: "At a certain stage in the build there was a failure lease check to ensure everything works fine"
-        }
-    }
+    //post{
+     //   failure{
+      //      mail to: "osiephriobukohwo@gmail.com"
+       //     subject: "FAILED BUILD"
+         //   body: "At a certain stage in the build there was a failure lease check to ensure everything works fine"
+        //}
+    // }
 }
