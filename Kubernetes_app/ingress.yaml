@@ -10,14 +10,14 @@ metadata:
     nginx.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-  - host: "**.elb.amazonaws.com"
+  - host: "*.elb.amazonaws.com"
     http:
       paths:
-        - path: '/app/'
+        - path: '/'
           pathType: Exact
           backend:
             service:
-              name: dev-cha-service
+              name: dev-chefrontend-service
               port:
                 number: 8081
 

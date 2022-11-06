@@ -81,3 +81,18 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+microservice:
+  name: microservice
+  images:
+    names:
+      frontend:
+        name: devchefrontend
+        image: dev
+      backend:
+         name: devchebackend
+         image: scinet0786/devchebackend:latest
+
+
+{{ microservice.name}}
+{{ microservice.images.names.frontend.image }}
+{{ microservice.images.names.backend.name }}

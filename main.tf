@@ -11,15 +11,15 @@ provider "aws" {
   region = "eu-south-1"
 }
 
-#terraform {
-  #backend "s3" {
-  #  bucket         = "terraform-one"
-  #  key            = ""
-  #  region         = "eu-south-1"
-  #  dynamodb_table = "terraform-state-locking"
-  #  encrypt        = true
-  #}
-#}
+terraform {
+  backend "s3" {
+    bucket         = "terraform-one"
+    key            = ""
+    region         = "eu-south-1"
+    dynamodb_table = "terraform-state-locking"
+    encrypt        = true
+  }
+}
 resource "aws_key_pair" "ansible_key" {
   key_name="ansiblekey"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC/MbZS38AAlAq2n4P0WVp8tCq6NI0/CeZGJCDCxOveZLD/5rue1cVzIKKlHjXlqO3VU3NmV//pnGqbOc8beZ90x7WCY/yOXoyt7z1JhynDHB7fD7XVHCv05GIcaEyBalBnHnqf6EPG0wkWQZ/2oEuaA1zZrw7z5GceCluZy21wUgMDpjcclGXyydnAC9HF2E0/KqOA+l8tLgvN5DcVCRLEnHv4H0t2Bz0k/ayxJQiGzSOro0u3PJVUo5TceShO5cWMKt0PG5SRLujb+I1HaoB910WaEWP5r68EjlCtrpZKeTnM5xtL2u+dEIsZT5XRYmVaBcBCJ7YiVU14SapqlCD3ami6Y3KSPhZ1MyZmZIBDyC/wSZ6FPYTzJUwtKlnz8an4J3a8LnUtu1yJUCp3dHuKZOdtQQQqNKG0HPH/0ADMgwEp9x/2xdb8ezHV78qpQBwRuCx62ZNTCP0vmrbw+u8Tuooh/EitJmmeWAOVve6kYuhd6xdg3tnaGRbyTlRuL+E= ELITEBOOK 2560p@OBUS"
@@ -272,8 +272,8 @@ resource "aws_db_instance" "db_instance" {
   engine                     = "postgres"
   engine_version             = "12"
   instance_class             = "db.t3.micro"
-  name                       = "Database_name"
-  username                   = "ansible"
-  password                   = "ansible12345"
+  name                       = "RDS_DB"
+  username                   = "postgres"
+  password                   = "AlexandreRuiAurthur"
   skip_final_snapshot        = true
 }

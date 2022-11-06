@@ -57,9 +57,7 @@ pipeline{
 
     post{
         success{
-            mail to: osiephriobukohwo@gmail.com,
-            subject: "Build_status",
-            body: "Return the previous build was successfully complete"
+            echo "This build succeded"
         }
     }
 }
