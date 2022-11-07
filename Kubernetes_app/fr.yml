@@ -35,7 +35,7 @@ spec:
     app: devchefrontend
     protocol: TCP
   ports:
-  - port: 8081
+  - port: 80
     targetPort: 8081
   type: LoadBalancer
 
