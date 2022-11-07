@@ -27,11 +27,11 @@ spec:
             ports:
               containerPort: 8081
             env:
-              - name: PORT_NUMBER:
+              - name: PORT_NUMBER
                 valueFrom:
                   configMapkeyRef:
                     name: port-number-CM
-                    key: Port-number
+                    key: port_no
 
 ---
 apiVersion: v1

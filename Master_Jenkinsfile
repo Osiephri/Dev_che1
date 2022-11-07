@@ -51,8 +51,8 @@ pipeline{
                                 ''' 
                                   
                                   docker login -u $USER -p $PASS
-                                  docker build -t $USER/production_pipeline:'${env.BUILD_ID}'
-                                  docker push scinet0786/production_pipeline:"${env.BUILD_ID}"
+                                  docker build -t $USER/devchefrontend:'${env.BUILD_ID}'
+                                  docker push scinet0786/devchefrontend:"${env.BUILD_ID}"
 
                                 '''
                             }
@@ -69,7 +69,7 @@ pipeline{
                 steps{
                     script{
                         def image = input(name:'CD_build',Message:'Build the image and deploy it in a kubernetes cluster',parameters[string(name:'Deploying_to_cluster',value: 'proceed')])
-                        def i = for (i,1<=100,++i)
+                        def i = for(i,1<=100,++i)
                         if (${params.Pipelines == 'infrastructure'}){
                             build job: "infrastructure" , parameters[string(name: 'infrastructure' , value: 'infrastructure')]
                         }

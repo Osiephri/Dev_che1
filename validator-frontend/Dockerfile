@@ -1,6 +1,6 @@
 FROM node:alpine3.12
-RUN npm install
-RUN npm run build
+#RUN npm install
+#RUN npm run build
 WORKDIR /validator-frontend
 COPY ./build .
 RUN npm i serve -g

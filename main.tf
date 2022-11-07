@@ -8,25 +8,25 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-south-1"
+  region = "eu-west-3"
 }
 
 terraform {
   backend "s3" {
     bucket         = "terraform-one"
     key            = ""
-    region         = "eu-south-1"
+    region         = "eu-west-3"
     dynamodb_table = "terraform-state-locking"
     encrypt        = true
   }
 }
 resource "aws_key_pair" "ansible_key" {
-  key_name="ansiblekey"
+  key_name=  "devcha_key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC/MbZS38AAlAq2n4P0WVp8tCq6NI0/CeZGJCDCxOveZLD/5rue1cVzIKKlHjXlqO3VU3NmV//pnGqbOc8beZ90x7WCY/yOXoyt7z1JhynDHB7fD7XVHCv05GIcaEyBalBnHnqf6EPG0wkWQZ/2oEuaA1zZrw7z5GceCluZy21wUgMDpjcclGXyydnAC9HF2E0/KqOA+l8tLgvN5DcVCRLEnHv4H0t2Bz0k/ayxJQiGzSOro0u3PJVUo5TceShO5cWMKt0PG5SRLujb+I1HaoB910WaEWP5r68EjlCtrpZKeTnM5xtL2u+dEIsZT5XRYmVaBcBCJ7YiVU14SapqlCD3ami6Y3KSPhZ1MyZmZIBDyC/wSZ6FPYTzJUwtKlnz8an4J3a8LnUtu1yJUCp3dHuKZOdtQQQqNKG0HPH/0ADMgwEp9x/2xdb8ezHV78qpQBwRuCx62ZNTCP0vmrbw+u8Tuooh/EitJmmeWAOVve6kYuhd6xdg3tnaGRbyTlRuL+E= ELITEBOOK 2560p@OBUS"
 }
 
 resource "aws_instance" "instance_1" {
-  ami             = "ami-0024dc61bc2f3d60f" # Amazon Linux 2 20.04 LTS // eu-south-1
+  ami             = "ami-0024dc61bc2f3d60f" # Amazon Linux 2 20.04 LTS / "eu-west-3
   instance_type   = "t3.small"
   security_groups = [aws_security_group.instances.name]
   key_name = aws_key_pair.ansible_key.key_name
@@ -46,7 +46,7 @@ resource "aws_instance" "instance_1" {
               sudo npm install serve -g 
               sudo npm run build
               sudo serve -s -l 8081
-              #sudo cat ./build >> usr/share/nginx/html
+              sudo cat ./build > usr/share/nginx/html
               python3 -m http.server 8080 &
               EOF
 }
@@ -77,8 +77,8 @@ resource "aws_instance" "instance_2" {
               EOF
 }
 
-resource "aws_instance" "instance_1" {
-  ami             = "ami-0024dc61bc2f3d60f" # Amazon Linux 2 20.04 LTS // eu-south-1
+resource "aws_instance" "instance_3" {
+  ami             = "ami-0024dc61bc2f3d60f" # Amazon Linux 2 20.04 LTS / "eu-west-3
   instance_type   = "t3.small"
   security_groups = [aws_security_group.instances.name]
   key_name = aws_key_pair.ansible_key.key_name
@@ -98,7 +98,7 @@ resource "aws_instance" "instance_1" {
               sudo npm install serve -g 
               sudo npm run build
               sudo serve -s -l 8081
-              #sudo cat ./build >> usr/share/nginx/html
+              #sudo cat ./build > usr/share/nginx/html
               python3 -m http.server 8080 &
               EOF
 }
@@ -132,7 +132,7 @@ data "aws_subnet_ids" "default_subnet" {
 }
 
 resource "aws_security_group" "instances" {
-  name = "instance-security-group-1"
+  name = "devcha-terraform-sg"
 }
 
 resource "aws_security_group_rule" "allow_http_inbound" {
@@ -165,7 +165,7 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_lb_target_group" "instances" {
-  name     = "example-target-group"
+  name     = "devcha-terraform-target-group"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.default_vpc.id
@@ -238,7 +238,7 @@ resource "aws_security_group_rule" "allow_alb_all_outbound" {
 
 
 resource "aws_lb" "load_balancer" {
-  name               = "web-app-lb"
+  name               = "devcha-terraform-lb"
   load_balancer_type = "application"
   subnets            = data.aws_subnet_ids.default_subnet.ids
   security_groups    = [aws_security_group.alb.id]
@@ -246,12 +246,12 @@ resource "aws_lb" "load_balancer" {
 }
 
 resource "aws_route53_zone" "primary" {
-  name = "devopsdeployed.com"
+  name = "devcha.com"
 }
 
 resource "aws_route53_record" "root" {
   zone_id = aws_route53_zone.primary.zone_id
-  name    = "devopsdeployed.com"
+  name    = "devcha.com"
   type    = "A"
 
   alias {

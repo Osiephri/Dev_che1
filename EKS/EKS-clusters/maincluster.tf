@@ -88,7 +88,7 @@ resource "aws_eks_node_group" "Ansible_node" {
   depends_on = [
     aws_iam_role_policy_attachment.Ansible-node-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.Ansible-node-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.Ansible-node-AmazonEC2ContainerRegistryReadOnly,
+    # aws_iam_role_policy_attachment.Ansible-node-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
 
@@ -119,7 +119,7 @@ resource "aws_iam_role_policy_attachment" "Ansible-node-AmazonEKS_CNI_Policy" {
   role       = aws_iam_role.Ansible_node.name
 }
 
-resource "aws_iam_role_policy_attachment" "Ansible-node-AmazonEC2ContainerRegistryReadOnly" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.Ansible_node.name
-}
+# resource "aws_iam_role_policy_attachment" "Ansible-node-AmazonEC2ContainerRegistryReadOnly" {
+#  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+#  role       = aws_iam_role.Ansible_node.name
+# }
