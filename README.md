@@ -10,5 +10,5 @@ Lets look at the pipeline configuration.
 #### Lets look at our microservice application</br>
 - **To Deploy a javascript frontend to a java backend, We connect the strings with access in the same networks**</br>
 - **I reengineered the maven code to meet the demands as specified for this project**</br>
-- **Using docker compose amd kubernetes namespace or cloud subnetting is one very  key way of achieving this.<\br>**
+- **Using docker compose amd kubernetes namespace or cloud subnetting is one very  key way of achieving this.**<\br>
 - **To run this applications locally we copy the built javascript application to the `src/main/resources/static` folder and then sandwhich into the maven pom.xml file to serve the same network</br>**
