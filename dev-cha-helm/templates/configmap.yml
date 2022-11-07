@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: port-number-CM
+  name: portnumberCM
   namespace: microservice
 data:
    port_no: 8081

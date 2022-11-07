@@ -8,36 +8,36 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-   name: dev-che
+   name: devche
    labels:
       app: frontend
    namespace: microservice
 spec:
   replicas: 2
-  matchLabels:
+  matchlabels:
     app: frontend
   template:
     metadata:
-      matchLabels:
+      matchlabels:
         app: frontend
     spec:
         containers:
-          - image: scinet0786/dev-chefrontend:latest
-            name: dev-che-frontend
+          - image: scinet0786/devchefrontend:latest
+            name: devchefrontend
             ports:
               containerPort: 8081
             env:
               - name: PORT_NUMBER
                 valueFrom:
-                  configMapkeyRef:
-                    name: port-number-CM
+                  ConfigMapKeyRef:
+                    name: portnumberCM
                     key: port_no
 
 ---
 apiVersion: v1
 kind: service
 metadata:
-  name: devche-frontendservice
+  name: devchefrontendservice
   namesapce: microservice
 spec:
   ports:

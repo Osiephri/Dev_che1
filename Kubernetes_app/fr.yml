@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: devchefrontend
+  name: devchefrontend
+  namespace: microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devchefrontend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: devchefrontend
+    spec:
+      containers:
+      - image: scinet0786/devchefrontend:latest
+        name: devchefrontend
+        resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devchefrontendservice
+  namespace: microservice
+spec:
+  selector:
+    app: devchefrontend
+    protocol: TCP
+  ports:
+  - port: 8081
+    targetPort: 8081
+  type: LoadBalancer
+
